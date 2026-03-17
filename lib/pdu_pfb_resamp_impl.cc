@@ -47,9 +47,7 @@ pdu_pfb_resamp_impl<T, S>::pdu_pfb_resamp_impl(const std::vector<S> taps,
     d_out = NULL;
     d_input_size = 0;
 
-    // GR_LOG_DEBUG(this->d_logger,
-    //   boost::format("started pdu pfb resampler with %d taps") %
-    //   int(d_taps.size()));
+    // this->d_logger->debug("started pdu pfb resampler with {} taps", int(d_taps.size()));
 
     this->message_port_register_in(PMTCONSTSTR__pdu_in());
     this->set_msg_handler(PMTCONSTSTR__pdu_in(),
@@ -95,8 +93,7 @@ void pdu_pfb_resamp_impl<T, S>::handle_pdu(pmt::pmt_t pdu)
         const T* input_data =
             static_cast<const T*>(pmt::uniform_vector_elements(v_data, nbytes));
         if (nbytes % sizeof(T) != 0) {
-            GR_LOG_WARN(this->d_logger,
-                        "Potentially conflicting PDU data type...aborting");
+            this->d_logger->warn("Potentially conflicting PDU data type...aborting");
             return;
         }
         nitems = nbytes / sizeof(T);
@@ -139,7 +136,7 @@ void pdu_pfb_resamp_impl<T, S>::handle_pdu(pmt::pmt_t pdu)
                                pmt::cons(meta, this->init_data(d_out, n_out)));
 
     } else {
-        GR_LOG_WARN(this->d_logger, "Received an invalid PDU");
+        this->d_logger->warn("Received an invalid PDU");
     }
 }
 

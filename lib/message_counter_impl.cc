@@ -52,8 +52,7 @@ message_counter_impl::~message_counter_impl() {}
 bool message_counter_impl::stop()
 {
 #ifdef ENABLE_GR_LOG
-    GR_LOG_INFO(d_logger,
-                boost::format("Message Counter '%s' got %d messages") % d_name % d_ctr);
+    d_logger->info("Message Counter '{}' got {} messages", d_name, d_ctr);
 #else
     std::cout << alias() << " :INFO: Message counter " << d_name << " got " << d_ctr
               << " messages" << std::endl;

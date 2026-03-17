@@ -41,12 +41,11 @@ take_skip_to_pdu_impl<T>::take_skip_to_pdu_impl(uint32_t take, uint32_t skip)
       d_prev_byte(0)
 {
     if (d_take == 0) {
-        GR_LOG_FATAL(this->d_logger, "TAKE value too small, must be > 0");
+        this->d_logger->critical("TAKE value too small, must be > 0");
         throw std::invalid_argument("TAKE value out of bounds");
     }
     if (d_take > TAKESKIP_MAXIMUM_PDU_SIZE) {
-        GR_LOG_FATAL(this->d_logger,
-                     boost::format("TAKE value too large, must be less than %d") %
+        this->d_logger->critical("TAKE value too large, must be less than {}",
                          TAKESKIP_MAXIMUM_PDU_SIZE);
         throw std::invalid_argument("TAKE value out of bounds");
     }
@@ -55,7 +54,7 @@ take_skip_to_pdu_impl<T>::take_skip_to_pdu_impl(uint32_t take, uint32_t skip)
     d_meta_dict = pmt::make_dict();
     this->message_port_register_out(PMTCONSTSTR__pdu_out());
 
-    GR_LOG_INFO(this->d_logger, "Starting Take Skip PDU Generator!");
+    this->d_logger->info("Starting Take Skip PDU Generator!");
 }
 
 

@@ -39,18 +39,15 @@ pdu_head_tail_impl::pdu_head_tail_impl(uint32_t input_type,
       d_bit_order(BIT_ORDER_LSB_FIRST)
 {
     if (d_input_type == INPUTTYPE_UNPACKED_BYTE) {
-        GR_LOG_DEBUG(d_logger, "PDU HEAD/TAIL block operating in Unpacked U8 PDU mode");
+        d_logger->debug("PDU HEAD/TAIL block operating in Unpacked U8 PDU mode");
     } else if (d_input_type == INPUTTYPE_PACKED_BYTE) {
-        // GR_LOG_DEBUG(d_logger, "PDU HEAD/TAIL block operating in 'Packed U8 PDU'
-        // mode");
-        GR_LOG_FATAL(d_logger, "PACKED BYTE MODE NOT SUPPORTED YET");
+        // d_logger->debug("PDU HEAD/TAIL block operating in 'Packed U8 PDU' mode");
+        d_logger->critical("PACKED BYTE MODE NOT SUPPORTED YET");
         throw std::invalid_argument("invalid mode PACKED BYTE");
     } else if (d_input_type == INPUTTYPE_FLOAT) {
-        GR_LOG_DEBUG(d_logger, "PDU HEAD/TAIL block operating in FLOAT PDU mode");
+        d_logger->debug("PDU HEAD/TAIL block operating in FLOAT PDU mode");
     } else {
-        GR_LOG_FATAL(
-            d_logger,
-            boost::format("PDU HEAD/TAIL block instantiated in unknown mode %d") %
+        d_logger->critical("PDU HEAD/TAIL block instantiated in unknown mode {}",
                 d_input_type);
         throw std::invalid_argument("unknown mode");
     }
@@ -73,7 +70,7 @@ void pdu_head_tail_impl::handle_pdu(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_WARN(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->warn("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -92,7 +89,7 @@ void pdu_head_tail_impl::handle_pdu(pmt::pmt_t pdu)
 
     if (d_input_type == INPUTTYPE_UNPACKED_BYTE) {
         if (!(pmt::is_dict(meta) && pmt::is_u8vector(v_data))) {
-            GR_LOG_WARN(d_logger, "PMT is not a U8 PDU, dropping");
+            d_logger->warn("PMT is not a U8 PDU, dropping");
             return;
         }
 
@@ -115,7 +112,7 @@ void pdu_head_tail_impl::handle_pdu(pmt::pmt_t pdu)
 
     } else if (d_input_type == INPUTTYPE_FLOAT) {
         if (!(pmt::is_dict(meta) && pmt::is_f32vector(v_data))) {
-            GR_LOG_WARN(d_logger, "PMT is not a F32 PDU, dropping");
+            d_logger->warn("PMT is not a F32 PDU, dropping");
             return;
         }
 
@@ -138,7 +135,7 @@ void pdu_head_tail_impl::handle_pdu(pmt::pmt_t pdu)
 
     } else if (d_input_type == INPUTTYPE_PACKED_BYTE) {
         if (!(pmt::is_dict(meta) && pmt::is_u8vector(v_data))) {
-            GR_LOG_WARN(d_logger, "PMT is not a U8 PDU, dropping");
+            d_logger->warn("PMT is not a U8 PDU, dropping");
             return;
         }
 
