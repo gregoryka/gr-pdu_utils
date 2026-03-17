@@ -42,12 +42,12 @@ pdu_head_tail_impl::pdu_head_tail_impl(uint32_t input_type,
         d_logger->debug("PDU HEAD/TAIL block operating in Unpacked U8 PDU mode");
     } else if (d_input_type == INPUTTYPE_PACKED_BYTE) {
         // d_logger->debug("PDU HEAD/TAIL block operating in 'Packed U8 PDU' mode");
-        d_logger->critical("PACKED BYTE MODE NOT SUPPORTED YET");
+        d_logger->error("PACKED BYTE MODE NOT SUPPORTED YET");
         throw std::invalid_argument("invalid mode PACKED BYTE");
     } else if (d_input_type == INPUTTYPE_FLOAT) {
         d_logger->debug("PDU HEAD/TAIL block operating in FLOAT PDU mode");
     } else {
-        d_logger->critical("PDU HEAD/TAIL block instantiated in unknown mode {}",
+        d_logger->error("PDU HEAD/TAIL block instantiated in unknown mode {}",
                 d_input_type);
         throw std::invalid_argument("unknown mode");
     }

@@ -85,14 +85,14 @@ void extract_metadata_impl::handle_msg(pmt::pmt_t msg)
                     value = pmt::from_uint64(
                         uint64_t(pmt::to_uint64(value) * d_scale + d_offset));
                 } catch (const pmt::wrong_type& e) {
-                    d_logger->error("something went wrong getting uint64: {}", value);
+                    d_logger->error("something went wrong getting uint64: {}", pmt::serialize_str(value));
                 }
             } else if (pmt::is_integer(value)) {
                 try {
                     value =
                         pmt::from_long(long(pmt::to_long(value) * d_scale + d_offset));
                 } catch (const pmt::wrong_type& e) {
-                    d_logger->error("something went wrong getting long: {}", value);
+                    d_logger->error("something went wrong getting long: {}", pmt::serialize_str(value));
                 }
             } else if (pmt::is_complex(value)) {
                 ;

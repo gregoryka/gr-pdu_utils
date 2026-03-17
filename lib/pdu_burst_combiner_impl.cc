@@ -90,9 +90,9 @@ void pdu_burst_combiner_impl::handle_pdu(pmt::pmt_t pdu)
         // we are in the middle of processing bursts...
         if (x > y) {
             // error...bad
-            d_logger->critical(
+            d_logger->error(
                 "Error processing PDU, burst_index metadata invalid ({})",
-                    burst_index);
+                    pmt::serialize_str(burst_index));
             d_logger->error("resetting state and dropping PDU");
             reset_state();
         } else if (x < y) {

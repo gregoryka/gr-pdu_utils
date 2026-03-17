@@ -91,7 +91,7 @@ void pdu_clock_recovery_impl::set_window_type(window_type type)
 {
     d_window_type = type;
 
-    d_logger->info("Changing Window type {}", d_window_type);
+    d_logger->info("Changing Window type {}", static_cast<int>(d_window_type));
 
     // flush all the existing pre-made memory & recreate it.
     fft_cleanup();

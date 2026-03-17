@@ -71,17 +71,17 @@ void pdu_set_m_impl::handle_ctrl_msg(pmt::pmt_t msg)
 
     if (pmt::is_pair(msg)) {
         if (pmt::eqv(pmt::car(msg), PMTCONSTSTR__val())) {
-            d_logger->info("value is {}", val());
+            d_logger->info("value is {}", pmt::serialize_str(val()));
         } else if (pmt::eqv(pmt::car(msg), PMTCONSTSTR__key())) {
-            d_logger->info("key is {}", key());
+            d_logger->info("key is {}", pmt::serialize_str(key()));
         } else if (pmt::eqv(pmt::car(msg), PMTCONSTSTR__set_val())) {
             set_val(pmt::cdr(msg));
-            d_logger->info("value set to {}", val());
+            d_logger->info("value set to {}", pmt::serialize_str(val()));
         } else if (pmt::eqv(pmt::car(msg), PMTCONSTSTR__set_key())) {
             set_key(pmt::cdr(msg));
-            d_logger->debug("key set to {}", key());
+            d_logger->debug("key set to {}", pmt::serialize_str(key()));
         } else {
-            d_logger->warn("invalid command {} received...", pmt::car(msg));
+            d_logger->warn("invalid command {} received...", pmt::serialize_str(pmt::car(msg)));
         }
     } else {
         d_logger->warn("received unexpected PMT command (non-pair)");
